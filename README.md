@@ -1,95 +1,169 @@
-# Mock Test Data Generator
+# 🏢 Employee API Testing Platform
 
-A Python-based mock data generator with a Streamlit interface for creating test data in various formats.
+A comprehensive API testing environment designed for QA engineers to learn and practice API testing using a real-world employee management system.
 
-## Features
+## 📋 Features
 
-- Generate mock data in multiple formats (JSON, CSV, XML)
-- Define custom fields with various data types and constraints
-- Pre-built templates for common data structures
-- Export generated data for testing environments
-- User-friendly web interface built with Streamlit
+- **RESTful API Endpoints**
+  - Complete CRUD operations for employee management
+  - Department management
+  - Analytics endpoints
+- **Interactive Testing UI**
+  - Built with Streamlit
+  - Real-time API testing interface
+  - Visual analytics dashboard
+- **Comprehensive Documentation**
+  - API endpoint documentation
+  - Request/Response examples
+  - Testing guides
+- **Data Persistence**
+  - SQLite database integration
+  - Sample data population
+  - Data validation
 
-## Installation
+## 🛠️ Technology Stack
+
+- **Backend**: FastAPI
+- **Frontend**: Streamlit
+- **Database**: SQLAlchemy with SQLite
+- **Testing**: pytest
+- **Documentation**: FastAPI Swagger/ReDoc
+- **Data Validation**: Pydantic
+
+## 📁 Project Structure
+
+```
+employee_api_testing/
+├── README.md
+├── requirements.txt
+├── setup.py
+├── .gitignore
+├── src/
+│   ├── __init__.py
+│   ├── database.py      # Database configuration
+│   ├── models.py        # SQLAlchemy models
+│   ├── schemas.py       # Pydantic schemas
+│   ├── api.py          # FastAPI application
+│   └── ui/
+│       ├── __init__.py
+│       └── app.py       # Streamlit interface
+└── tests/
+    ├── __init__.py
+    ├── test_api.py
+    └── test_data.py
+```
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Python 3.9+
+- pip (Python package manager)
+- git
+
+### Installation
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/mock-data-generator.git
-cd mock-data-generator
+git clone https://github.com/yourusername/employee_api_testing.git
+cd employee_api_testing
 ```
 
-2. Create a virtual environment and activate it:
+2. Create and activate a virtual environment:
 ```bash
 python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+# On Windows:
+venv\Scripts\activate
+# On Unix or MacOS:
+source venv/bin/activate
 ```
 
-3. Install the required packages:
+3. Install the package in development mode:
 ```bash
-pip install -r requirements.txt
+pip install -e .
 ```
 
-## Usage
+### Running the Application
 
-1. Start the Streamlit application:
+1. Start the FastAPI backend server:
 ```bash
-streamlit run app.py
+uvicorn src.api:app --reload --port 8000
 ```
 
-2. Open your web browser and navigate to the provided URL (typically http://localhost:8501)
-
-3. Configure your data generation:
-   - Select the export format (JSON, CSV, XML)
-   - Choose a template or create custom fields
-   - Set the number of records to generate
-   - Define field types and constraints
-
-4. Click "Generate Data" to create and preview the mock data
-
-5. Download the generated data using the provided download link
-
-## Development
-
-### Project Structure
-
-The project follows SOLID principles and is organized as follows:
-
-- `src/`: Source code
-  - `generators/`: Data generation implementations
-  - `templates/`: Predefined data templates
-  - `data_types/`: Field type definitions
-  - `utils/`: Utility functions
-- `tests/`: Unit tests
-- `app.py`: Streamlit application
-- `requirements.txt`: Project dependencies
-
-### Running Tests
-
+2. In a new terminal, start the Streamlit UI:
 ```bash
-python -m unittest discover tests
+streamlit run src/ui/app.py
 ```
 
-### Adding New Features
+3. Access the applications:
+- API Documentation: http://localhost:8000/docs
+- Streamlit Interface: http://localhost:8501
 
-1. To add a new field type:
-   - Add the type to `src/data_types/field_types.py`
-   - Implement generation logic in the appropriate generator class
+## 🔍 Available Endpoints
 
-2. To add a new template:
-   - Create a new template class in `src/templates/`
-   - Add corresponding unit tests
+### Employees
+- `GET /employees` - List all employees
+- `GET /employees/{id}` - Get specific employee
+- `POST /employees` - Create new employee
+- `PUT /employees/{id}` - Update employee
+- `DELETE /employees/{id}` - Delete employee
 
-3. To add a new export format:
-   - Create a new generator class implementing the `DataGenerator` interface
-   - Add corresponding unit tests
+### Departments
+- `GET /departments` - List all departments
+- `POST /departments` - Create new department
 
-## Requirements
+### Analytics
+- `GET /analytics/department-stats` - Get department statistics
 
-- Python 3.8+
-- Streamlit
-- Faker
-- Additional requirements listed in requirements.txt
+## 🧪 Running Tests
 
-## License
+Execute the test suite:
+```bash
+pytest tests/
+```
+
+## 🎓 Learning Resources
+
+### API Testing Concepts Covered
+- HTTP Methods (GET, POST, PUT, DELETE)
+- Request/Response handling
+- Status codes and error handling
+- Data validation
+- Database interactions
+- Analytics and reporting
+
+### Recommended Learning Path
+1. Start with simple GET requests
+2. Practice data creation with POST
+3. Implement data updates with PUT
+4. Learn data deletion with DELETE
+5. Explore analytics endpoints
+6. Write automated tests
+
+## 🛟 Troubleshooting
+
+Common Issues and Solutions:
+
+1. **Import Errors**
+   - Ensure you're in the virtual environment
+   - Verify package installation with `pip list`
+
+2. **Database Issues**
+   - Delete the `employee_test.db` file to reset the database
+   - Restart the API server
+
+3. **Port Conflicts**
+   - Change ports using `--port` flag with uvicorn
+   - Check for running processes on ports 8000 and 8501
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a Pull Request
+
+## 📝 License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
