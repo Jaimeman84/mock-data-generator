@@ -1,169 +1,183 @@
-# 🏢 Employee API Testing Platform
+# Mock Test Data Generator
 
-A comprehensive API testing environment designed for QA engineers to learn and practice API testing using a real-world employee management system.
+A Python-based mock data generator with a Streamlit interface for creating test data in various formats.
 
-## 📋 Features
+## Features
 
-- **RESTful API Endpoints**
-  - Complete CRUD operations for employee management
-  - Department management
-  - Analytics endpoints
-- **Interactive Testing UI**
-  - Built with Streamlit
-  - Real-time API testing interface
-  - Visual analytics dashboard
-- **Comprehensive Documentation**
-  - API endpoint documentation
-  - Request/Response examples
-  - Testing guides
-- **Data Persistence**
-  - SQLite database integration
-  - Sample data population
-  - Data validation
+### Data Generation
+- Generate mock data in multiple formats (JSON, CSV, XML)
+- Specify custom number of records (1-1000)
+- Preview generated data before download
+- Export data in different formats with proper encoding
 
-## 🛠️ Technology Stack
+### Field Types Support
+- String
+- Integer
+- Float
+- Email
+- Date
+- Boolean
+- Name
+- Phone
+- Address
 
-- **Backend**: FastAPI
-- **Frontend**: Streamlit
-- **Database**: SQLAlchemy with SQLite
-- **Testing**: pytest
-- **Documentation**: FastAPI Swagger/ReDoc
-- **Data Validation**: Pydantic
+### Templates
+- Custom template creation
+- Pre-built templates:
+  - User Data Template (user profiles)
+  - Financial Data Template (transaction records)
 
-## 📁 Project Structure
+### Field Configuration
+- Define custom fields with:
+  - Name
+  - Data type
+  - Min/Max values for numeric fields
+  - Nullable option
+  - Unique value constraints
+  - Pattern matching
+  - Predefined choices
 
-```
-employee_api_testing/
-├── README.md
-├── requirements.txt
-├── setup.py
-├── .gitignore
-├── src/
-│   ├── __init__.py
-│   ├── database.py      # Database configuration
-│   ├── models.py        # SQLAlchemy models
-│   ├── schemas.py       # Pydantic schemas
-│   ├── api.py          # FastAPI application
-│   └── ui/
-│       ├── __init__.py
-│       └── app.py       # Streamlit interface
-└── tests/
-    ├── __init__.py
-    ├── test_api.py
-    └── test_data.py
-```
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-- Python 3.9+
-- pip (Python package manager)
-- git
-
-### Installation
+## Installation
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/employee_api_testing.git
-cd employee_api_testing
+git clone https://github.com/yourusername/mock-data-generator.git
+cd mock-data-generator
 ```
 
-2. Create and activate a virtual environment:
+2. Create a virtual environment and activate it:
 ```bash
 python -m venv venv
-# On Windows:
-venv\Scripts\activate
-# On Unix or MacOS:
-source venv/bin/activate
+source venv/bin/activate  # On Windows: venv\Scripts\activate
 ```
 
-3. Install the package in development mode:
+3. Install the required packages:
 ```bash
-pip install -e .
+pip install -r requirements.txt
 ```
 
-### Running the Application
+## Usage
 
-1. Start the FastAPI backend server:
+1. Start the Streamlit application:
 ```bash
-uvicorn src.api:app --reload --port 8000
+streamlit run app.py
 ```
 
-2. In a new terminal, start the Streamlit UI:
+2. Access the web interface (typically http://localhost:8501)
+
+3. Configure your data generation:
+   - Select export format (JSON, CSV, XML)
+   - Choose number of records to generate
+   - Select a template or create custom fields
+   - Configure field properties
+
+4. Click "Generate Data" to:
+   - Preview the generated data
+   - See total records generated
+   - Download the complete dataset
+
+## Project Structure
+```
+mock_data_generator/
+│
+├── src/
+│   ├── __init__.py
+│   ├── generators/
+│   │   ├── __init__.py
+│   │   ├── base_generator.py     # Abstract base class for generators
+│   │   ├── json_generator.py     # JSON format generator
+│   │   ├── xml_generator.py      # XML format generator
+│   │   └── csv_generator.py      # CSV format generator
+│   │
+│   ├── templates/
+│   │   ├── __init__.py
+│   │   ├── base_template.py      # Template interface
+│   │   ├── user_template.py      # User data template
+│   │   └── financial_template.py # Financial data template
+│   │
+│   ├── data_types/
+│   │   ├── __init__.py
+│   │   ├── field_types.py        # Field definitions and types
+│   │   └── constraints.py        # Field constraints
+│   │
+│   └── utils/
+│       ├── __init__.py
+│       └── validators.py         # Data validation utilities
+│
+├── tests/
+│   ├── __init__.py
+│   ├── conftest.py              # Pytest fixtures and configuration
+│   ├── test_generators/         # Generator tests
+│   │   ├── test_json_generator.py
+│   │   ├── test_xml_generator.py
+│   │   └── test_csv_generator.py
+│   │
+│   └── test_templates/          # Template tests
+│       ├── test_user_template.py
+│       └── test_financial_template.py
+│
+├── app.py                       # Streamlit application
+├── requirements.txt             # Project dependencies
+└── README.md                    # This file
+```
+
+## Development
+
+### Running Tests
 ```bash
-streamlit run src/ui/app.py
+# Run all tests
+pytest
+
+# Run with coverage report
+pytest --cov=src --cov-report=term-missing
+
+# Run specific test file
+pytest tests/test_generators/test_json_generator.py
+
+# Run tests with specific marker
+pytest -k "json"
 ```
 
-3. Access the applications:
-- API Documentation: http://localhost:8000/docs
-- Streamlit Interface: http://localhost:8501
+### SOLID Principles Implementation
+- **Single Responsibility**: Each generator handles one format
+- **Open/Closed**: Easy to add new generators and templates
+- **Liskov Substitution**: All generators follow the base interface
+- **Interface Segregation**: Clean interfaces for generators and templates
+- **Dependency Inversion**: High-level modules depend on abstractions
 
-## 🔍 Available Endpoints
+### Adding New Features
 
-### Employees
-- `GET /employees` - List all employees
-- `GET /employees/{id}` - Get specific employee
-- `POST /employees` - Create new employee
-- `PUT /employees/{id}` - Update employee
-- `DELETE /employees/{id}` - Delete employee
+1. Adding a New Field Type:
+   - Add type to `FieldTypes` class in `src/data_types/field_types.py`
+   - Implement generation logic in generators
 
-### Departments
-- `GET /departments` - List all departments
-- `POST /departments` - Create new department
+2. Adding a New Template:
+   - Create new template class in `src/templates/`
+   - Implement `get_template()` and `get_name()`
+   - Add corresponding tests
 
-### Analytics
-- `GET /analytics/department-stats` - Get department statistics
+3. Adding a New Export Format:
+   - Create new generator class in `src/generators/`
+   - Implement `generate()` and `export()`
+   - Add corresponding tests
 
-## 🧪 Running Tests
+## Requirements
 
-Execute the test suite:
-```bash
-pytest tests/
-```
+- Python 3.8+
+- streamlit>=1.32.0
+- faker>=24.0.0
+- pytest>=8.0.0
+- pytest-cov>=4.1.0
+- Additional requirements listed in requirements.txt
 
-## 🎓 Learning Resources
-
-### API Testing Concepts Covered
-- HTTP Methods (GET, POST, PUT, DELETE)
-- Request/Response handling
-- Status codes and error handling
-- Data validation
-- Database interactions
-- Analytics and reporting
-
-### Recommended Learning Path
-1. Start with simple GET requests
-2. Practice data creation with POST
-3. Implement data updates with PUT
-4. Learn data deletion with DELETE
-5. Explore analytics endpoints
-6. Write automated tests
-
-## 🛟 Troubleshooting
-
-Common Issues and Solutions:
-
-1. **Import Errors**
-   - Ensure you're in the virtual environment
-   - Verify package installation with `pip list`
-
-2. **Database Issues**
-   - Delete the `employee_test.db` file to reset the database
-   - Restart the API server
-
-3. **Port Conflicts**
-   - Change ports using `--port` flag with uvicorn
-   - Check for running processes on ports 8000 and 8501
-
-## 🤝 Contributing
+## Contributing
 
 1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a Pull Request
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-## 📝 License
+## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
