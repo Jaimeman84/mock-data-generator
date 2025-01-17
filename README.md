@@ -41,7 +41,7 @@ A Python-based mock data generator with a Streamlit interface for creating test 
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/mock-data-generator.git
+git clone https://github.com/jaimeman84/mock-data-generator.git
 cd mock-data-generator
 ```
 
